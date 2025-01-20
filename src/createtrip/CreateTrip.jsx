@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { SelectBudgetOptions, SelectTravelList } from "@/constants/options";
 import { useEffect, useState } from "react"
 import GooglePlacesAutocomplete from "react-google-places-autocomplete"
+import { toast } from "sonner";
 
 function CreateTrip() {
 
@@ -12,7 +13,7 @@ function CreateTrip() {
 
     const handleInputChange = (name, value) => {
 
-        if (name == 'no:days' && value > 5) {
+        if (name == 'noOfdays' && value > 5) {
             console.log('Please enter days < 5')
         }
 
@@ -28,10 +29,9 @@ function CreateTrip() {
 
 
     const OnGenerateTrip = () => {
-        if (formData?.noOfdays > 5) {
-
-            // to show toast meathod
-
+        if (formData?.noOfdays > 5 || (!formData?.location || !formData?.budget || !formData?.traveller)) {
+            // to show toast method
+            toast("Please fill all details");
             return;
         }
 
