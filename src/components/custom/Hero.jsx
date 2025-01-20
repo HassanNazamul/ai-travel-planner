@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { Button } from "../ui/button"
 
 const Hero = () => {
@@ -12,7 +13,10 @@ const Hero = () => {
         Your personal trip planner and travel curator,
         creating custom iteneries taliored to your interestand budget
       </p>
-      <Button>Get Started, It&apos;s Free</Button>
+
+      <Link to={'/create-trip'}>
+        <Button>Get Started, It&apos;s Free</Button>
+      </Link>
     </div>
   )
 }

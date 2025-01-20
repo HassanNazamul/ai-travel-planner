@@ -4,18 +4,23 @@ import './index.css'
 import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Header from './components/custom/Header'
+import CreateTrip from './createtrip/CreateTrip'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />
   },
+  {
+    path: '/create-trip',
+    element: <CreateTrip />
+  },
 ])
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
 
-    <Header/>
+    <Header />
     <RouterProvider router={router} ></RouterProvider>
 
   </StrictMode>,
