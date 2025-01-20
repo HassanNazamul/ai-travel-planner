@@ -2,10 +2,10 @@ import { Button } from "../ui/button"
 
 const Header = () => {
     return (
-        <div className="p-2 shadow-sm">
+        <div className="p-2 shadow-sm flex justify-between">
             <img src="/logo.svg" />
             <div>
-                <Button></Button>
+                <Button>Sign In</Button>
             </div>
         </div>
 
