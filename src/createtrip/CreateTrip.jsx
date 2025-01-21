@@ -10,6 +10,19 @@ import { useEffect, useState } from "react";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { toast } from "sonner";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  //   DialogTitle,
+  //   DialogTrigger,
+} from "@/components/ui/dialog";
+
+import { FcGoogle } from "react-icons/fc";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+
 function CreateTrip() {
   const [place, setPlace] = useState();
 
@@ -26,11 +39,45 @@ function CreateTrip() {
     });
   };
 
+  const [openDialog, setOpenDialog] = useState(false);
+
   useEffect(() => {
     console.log(formData);
   }, [formData]);
 
+  const login = useGoogleLogin({
+    onSuccess: (respone) => GetUserProfile(respone),
+    onError: (err) => console.log(err),
+  });
+
+  const GetUserProfile = (tokenInfo) => {
+    axios
+      .get(
+        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,
+        {
+          headers: {
+            Authorization: `Bearer ${tokenInfo?.access_token}`,
+            Accept: "Application/json",
+          },
+        }
+      )
+      .then((resp) => {
+        console.log(resp);
+        localStorage.setItem("user", JSON.stringify(resp.data));
+        setOpenDialog(false);
+        OnGenerateTrip();
+      });
+  };
+
   const OnGenerateTrip = async () => {
+    const user = localStorage.getItem("user");
+
+    //if user is not  logged in then it will open the login dialog box
+    if (!user) {
+      setOpenDialog(true);
+      return;
+    }
+
     if (
       formData?.noOfdays > 5 ||
       !formData?.location ||
@@ -136,6 +183,27 @@ function CreateTrip() {
       <div className="my-10 justify-end flex">
         <Button onClick={OnGenerateTrip}>Generate Trip</Button>
       </div>
+
+      <Dialog open={openDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogDescription>
+              <img src="/logo.svg" />
+              <h2 className="font-bold text-lg mt-7">Sign in Google</h2>
+              <p>Sign in to the App with Google Authentication </p>
+
+              <Button
+                onClick={login}
+                className="w-full mt-5 flex gap-4 items-center"
+              >
+                {" "}
+                <FcGoogle className="h-7 w-7" />
+                Sign in
+              </Button>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
