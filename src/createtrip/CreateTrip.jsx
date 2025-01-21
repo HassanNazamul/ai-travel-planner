@@ -20,10 +20,15 @@ import {
 } from "@/components/ui/dialog";
 
 import { FcGoogle } from "react-icons/fc";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "@/service/FirebaseConfig";
+
 function CreateTrip() {
+  //all the state const are here
   const [place, setPlace] = useState();
 
   const [formData, setFormData] = useState([]);
@@ -41,15 +46,23 @@ function CreateTrip() {
 
   const [openDialog, setOpenDialog] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
+  //const state last
+
   useEffect(() => {
     console.log(formData);
   }, [formData]);
 
+  //all the method are below
+
+  //google login method
   const login = useGoogleLogin({
     onSuccess: (respone) => GetUserProfile(respone),
     onError: (err) => console.log(err),
   });
 
+  //geeting user info from google
   const GetUserProfile = (tokenInfo) => {
     axios
       .get(
@@ -69,6 +82,7 @@ function CreateTrip() {
       });
   };
 
+  //generating the trip from Gemini
   const OnGenerateTrip = async () => {
     const user = localStorage.getItem("user");
 
@@ -89,6 +103,8 @@ function CreateTrip() {
       return;
     }
 
+    setLoading(true);
+
     const FINAL_PROMPT = AI_PROMPT.replace(
       "{location}",
       formData?.location?.label
@@ -102,7 +118,29 @@ function CreateTrip() {
     const result = await chatSession.sendMessage(FINAL_PROMPT);
 
     console.log(result?.response?.text());
+
+    setLoading(false);
+    // saving the ai trip plan to the database
+    SaveAiTrip(result?.response.text());
   };
+
+  //saving the trip to the database
+  const SaveAiTrip = async (tripData) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    setLoading(true);
+    const docID = Date.now().toString();
+    await setDoc(doc(db, "AITrips", docID), {
+      userSelection: formData,
+      tripData: JSON.parse(tripData),
+      userEmail: user?.email,
+      id: docID,
+    });
+
+    setLoading(false);
+  };
+
+  //method last area
 
   return (
     <div className="sm:px-10 md:px-32 lg:px-56 xl:px-10 px-5 m-20 ">
@@ -181,7 +219,13 @@ function CreateTrip() {
       </div>
 
       <div className="my-10 justify-end flex">
-        <Button onClick={OnGenerateTrip}>Generate Trip</Button>
+        <Button onClick={OnGenerateTrip} disabled={loading}>
+          {loading ? (
+            <AiOutlineLoading3Quarters className="h-7 w-7 animate-spin" />
+          ) : (
+            "Generate Trip"
+          )}
+        </Button>
       </div>
 
       <Dialog open={openDialog}>
