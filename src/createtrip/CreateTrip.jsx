@@ -26,6 +26,7 @@ import axios from "axios";
 
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/service/FirebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 function CreateTrip() {
   //all the state const are here
@@ -47,6 +48,8 @@ function CreateTrip() {
   const [openDialog, setOpenDialog] = useState(false);
 
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   //const state last
 
@@ -117,7 +120,7 @@ function CreateTrip() {
 
     const result = await chatSession.sendMessage(FINAL_PROMPT);
 
-    console.log(result?.response?.text());
+    // console.log(result?.response?.text());
 
     setLoading(false);
     // saving the ai trip plan to the database
@@ -138,6 +141,8 @@ function CreateTrip() {
     });
 
     setLoading(false);
+
+    navigate('/view-trip/'+docID)
   };
 
   //method last area
