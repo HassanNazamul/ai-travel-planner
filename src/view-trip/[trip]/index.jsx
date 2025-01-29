@@ -3,6 +3,8 @@ import { db } from "@/service/FirebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
+import InfoSection from "../components/infoSection";
+import Hotels from "../components/Hotels";
 
 // this is page will show thw trip data
 function ViewTrip() {
@@ -38,15 +40,22 @@ function ViewTrip() {
   };
 
   return (
-    <>
-      <div>{/* Basic Info Section */}</div>
+    <div className="p-10 md:px-20 lg:px-44 xl:px-56">
+      {/* Basic Info Section */}
+      <div>
+        {/* //paasing trip data to the infoSection */}
+        <InfoSection trip={trip} />
+      </div>
 
-      <div>{/* Recommeded Hotel */}</div>
+      {/* Recommeded Hotel */}
+      <div>
+        <Hotels trip={trip} />
+      </div>
 
       <div>{/* Itenary or daily Plan */}</div>
 
       <div>{/* Footer */}</div>
-    </>
+    </div>
   );
 }
 
