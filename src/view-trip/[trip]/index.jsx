@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useParams } from "react-router-dom";
 import { db } from "@/service/FirebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
@@ -5,6 +6,7 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import InfoSection from "../components/infoSection";
 import Hotels from "../components/Hotels";
+import Itinerary from "../components/Itinerary";
 
 // this is page will show thw trip data
 function ViewTrip() {
@@ -52,7 +54,10 @@ function ViewTrip() {
         <Hotels trip={trip} />
       </div>
 
-      <div>{/* Itenary or daily Plan */}</div>
+      {/* Itenary or daily Plan */}
+      <div>
+        <Itinerary trip={trip} />
+      </div>
 
       <div>{/* Footer */}</div>
     </div>
