@@ -37,7 +37,7 @@ function InfoSection({ trip }) {
   return (
     <div>
       <img
-        src={photoUrl}
+        src={photoUrl ? photoUrl : "/tripPic.jpg"}
         className="h-[340px] w-full object-cover rounded-xl"
       />
 

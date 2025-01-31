@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
@@ -44,7 +45,7 @@ function HotelCard({ hotel }) {
       >
         <div className="hover:scale-105 transition-all cursor-pointer">
           <img
-            src={photoUrl}
+            src={photoUrl ? photoUrl : "/tripPic.jpg"}
             className="rounded-xl h-[180px] w-full object-cover"
           />
 
