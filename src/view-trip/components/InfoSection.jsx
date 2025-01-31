@@ -5,18 +5,16 @@ import { Button } from "@/components/ui/button";
 import { getPlaceDetail } from "@/service/GlobalApi";
 import { useEffect, useState } from "react";
 import { IoIosSend } from "react-icons/io";
+import { PHOTO_REF_URL } from "@/service/GlobalApi";
 // import { tripPic } from "@/assets/tripPic.jpg";
 
-const PHOTO_REF_URL =
-  "https://places.googleapis.com/v1/{NAME}/media?maxHeightPx=1000&maxWidthPx=1000&key=" +
-  import.meta.env.VITE_GOOGLE_PLACE_API_KEY;
 function InfoSection({ trip }) {
   //to store the url of the photo
   const [photoUrl, setPhotoUrl] = useState();
 
   //when page is loaded with trip, then it will call the method to fetch photo and display it
   useEffect(() => {
-    GetPlacePhoto();
+    trip && GetPlacePhoto();
   }, [trip]);
 
   //this a method which call getPlaceDetail method from service package
@@ -40,7 +38,6 @@ function InfoSection({ trip }) {
     <div>
       <img
         src={photoUrl}
-        alt=""
         className="h-[340px] w-full object-cover rounded-xl"
       />
 
