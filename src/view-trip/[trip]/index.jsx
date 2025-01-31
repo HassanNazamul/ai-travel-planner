@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import InfoSection from "../components/infoSection";
 import Hotels from "../components/Hotels";
 import Itinerary from "../components/Itinerary";
+import Footer from "../components/Footer";
 
 // this is page will show thw trip data
 function ViewTrip() {
@@ -59,7 +60,9 @@ function ViewTrip() {
         <Itinerary trip={trip} />
       </div>
 
-      <div>{/* Footer */}</div>
+      <div>
+        <Footer trip={trip} />
+      </div>
     </div>
   );
 }
