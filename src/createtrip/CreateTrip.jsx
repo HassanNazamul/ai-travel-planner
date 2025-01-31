@@ -143,7 +143,7 @@ function CreateTrip() {
 
     setLoading(false);
 
-    navigate('/view-trip/'+docID)
+    navigate("/view-trip/" + docID);
   };
 
   //method last area
@@ -193,7 +193,10 @@ function CreateTrip() {
               <div
                 key={index}
                 onClick={() => handleInputChange("budget", item.title)}
-                className="p-4 border rounded-lg hover:shadow-lg cursor-pointer"
+                className={`p-4 border rounded-lg hover:shadow-lg cursor-pointer 
+            ${
+              formData?.budget === item.title ? "shadow-md border-gray-400" : ""
+            }`}
               >
                 <h2 className="text-4xl"> {item.icon} </h2>
                 <h2 className="font-bold text-lg"> {item.title} </h2>
@@ -213,7 +216,12 @@ function CreateTrip() {
               <div
                 key={index}
                 onClick={() => handleInputChange("traveller", item.people)}
-                className="p-4 border rounded-lg hover:shadow-lg cursor-pointer"
+                className={`p-4 border rounded-lg hover:shadow-lg cursor-pointer
+                  ${
+                    formData?.traveller === item.people
+                      ? "shadow-md border-gray-400"
+                      : ""
+                  }`}
               >
                 <h2 className="text-4xl"> {item.icon} </h2>
                 <h2 className="font-bold text-lg"> {item.title} </h2>

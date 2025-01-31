@@ -71,6 +71,12 @@ const Header = () => {
             {/* since header component is not in react dom in main.jsx
             i have to wrap my-trip button in <a></a> */}
 
+            <a href="/create-trip">
+              <Button variant="outline" className="rounded-full">
+                + Create Trip
+              </Button>
+            </a>
+
             <a href="/my-trips">
               <Button variant="outline" className="rounded-full">
                 My Trips
