@@ -66,6 +66,7 @@ function CreateTrip() {
   });
 
   //geeting user info from google
+  //this method can be store in Google_API in service file
   const GetUserProfile = (tokenInfo) => {
     axios
       .get(
