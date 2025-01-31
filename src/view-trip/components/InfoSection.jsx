@@ -1,9 +1,38 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Button } from "@/components/ui/button";
+import { getPlaceDetail } from "@/service/GlobalApi";
+import { useEffect } from "react";
 import { IoIosSend } from "react-icons/io";
 // import { tripPic } from "@/assets/tripPic.jpg";
 
+const PHOTO_REF_URL =
+  "https://places.googleapis.com/v1/{NAME}/media?maxHeightPx=600&maxWidthPx=600&key=" +
+  import.meta.env.VITE_GOOGLE_PLACE_API_KEY;
 function InfoSection({ trip }) {
+  useEffect(() => {
+    GetPlacePhoto();
+  }, [trip]);
+
+  //this a method which call getPlaceDetail method from service package
+  const GetPlacePhoto = async () => {
+    const data = {
+      textQuery: trip?.userSelection?.location?.label,
+    };
+
+    const result = await getPlaceDetail(data).then((resp) => {
+      console.log(resp.data.places[0].photos[3].name);
+
+      const photoUrl = PHOTO_REF_URL.replace(
+        "{NAME}",
+        resp.data.places[0].photos[3].name
+      );
+
+      console.log(photoUrl);
+    });
+  };
+
   return (
     <div>
       <img
