@@ -68,9 +68,14 @@ const Header = () => {
       <div>
         {user ? (
           <div className="flex items-center gap-3">
-            <Button variant="outline" className="rounded-full">
-              My Trips
-            </Button>
+            {/* since header component is not in react dom in main.jsx
+            i have to wrap my-trip button in <a></a> */}
+
+            <a href="/my-trips">
+              <Button variant="outline" className="rounded-full">
+                My Trips
+              </Button>
+            </a>
 
             <Popover>
               <PopoverTrigger
